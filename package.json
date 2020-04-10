@@ -1,0 +1,38 @@
+{
+  "name": "wp-api-sanity-migrate",
+  "version": "0.0.1",
+  "description": "Migrate data from WP-API to Sanity.io",
+  "main": "index.js",
+  "author": "Joshua Lawrence",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@sanity/block-tools": "^1.149.4",
+    "@sanity/client": "^1.149.7",
+    "@sanity/schema": "^1.149.4",
+    "dotenv": "^8.2.0",
+    "husky": "^4.2.5",
+    "jsdom": "^16.2.2",
+    "lint-staged": "^10.1.3",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.0.4",
+    "sanitize-html": "^1.22.1"
+  },
+  "scripts": {
+    "log": "node index.js",
+    "output": "node index.js > output.ndjson"
+  },
+  "engines": {
+    "node": ">= 12.*"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
