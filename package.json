@@ -1,5 +1,5 @@
 {
-  "name": "wp-api-sanity-migrate",
+  "name": "wordpress-api-to-sanity",
   "version": "0.0.1",
   "description": "Migrate data from WP-API to Sanity.io",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "sanitize-html": "^1.22.1"
   },
   "scripts": {
-    "log": "node index.js",
+    "start": "node index.js",
     "output": "node index.js > output.ndjson"
   },
   "engines": {
