@@ -34,36 +34,39 @@ You must also have a Sanity.io project created where you can import the data.
 
 The script isn't entirely hands off, since it's up to you to decide how to model the data you get from Wordpress into Sanity. There are two things you need to do to get started:
 
-- Create/edit the files found in the `/serializers` directory to serialize data from each WP endpoint you wish to import to Sanity.
-- Create a `.env` file at the root of this project which includes data you will need to run this script.
-
-#### Serializers
-
-Each serializer file maps to an endpoint from your WP REST API. For example, if you want to import your posts from WP to Sanity, you will need a `/serializers/post.js` file. Each of these files should export a serializer function which will take the data from the WP API response and format it to the however you want to model the data in your Sanity project.
-
-I have included a few examples, but feel free to modify/add/delete them as you wish.
+- Create a `.env` file at the root of this project which includes values you will need to run this script.
+- Create/edit the files found in the `/api/` and `/serializers` directories to define which WP endpoints we're working with, how we'll fetch the data, and how we'll serialize it into Sanity.
 
 #### .env
 
 Create a `.env` file at the root of your project. This will contain variables that are used by the script to function.
 
-First we need to add variables to configure the sanity js client, which may optionally be used to import data or delete collections of data using the `/utils/delete-collection.js` script. The two keys we need are:
+First, add the WP API url that you will be migrating:
+
+```conf
+WP_API_ENDPOINT=https://<YOUR WP SITE DOMAIN>.com/wp-json/wp/v2
+```
+
+Optionally, we can add variables to configure the sanity js client, which may optionally be used to import data or delete collections of data using the `/utils/delete-collection.js` script. The two keys we need are:
 
 ```conf
 SANITY_API_TOKEN=<YOUR SANITY API TOKEN>
 SANITY_PROJECT_ID=<YOUR SANITY PROJECT ID>
 ```
 
-Next, we need to provide WP endpoint URLs for each document type we intend to import to Sanity. There should be a 1:1 relationship between the files in the `/serializers` directory and the key value pairs we include here. This repo contains four serializers of types "post", "author", "category", and "tag". We therefore need to include endpoint urls in the form of `<SERIALIZER>_ENDPOINT`:
+#### API Endpoints (`/api`)
 
-```conf
-POST_ENDPOINT=https://<YOUR WP SITE DOMAIN>.com/wp-json/wp/v2/posts?per_page=100
-AUTHOR_ENDPOINT=https://<YOUR WP SITE DOMAIN>.com/wp-json/wp/v2/users?per_page=100
-CATEGORY_ENDPOINT=https://<YOUR WP SITE DOMAIN>.com/wp-json/wp/v2/categories?per_page=100
-TAG_ENDPOINT=https://<YOUR WP SITE DOMAIN>.com/wp-json/wp/v2/tags?per_page=100
-```
+Each file in the `/api` directory maps to an endpoint from your WP REST API. For example, if you want to import your posts from WP to Sanity, you should create a `/api/post.js` file.
 
-Obviously, if you add or remove serializers you will need to update these key/values to match.
+In each file you will decide how to request data and what to do with the response. Typically this means requesting data from a WP API endpoint, running it through a serializer function to convert it to a format that will work with sanity and returning the result.
+
+Take a look at the `api/post/js` for an example of stitching together different records to create a single document in Sanity.
+
+#### Serializers (`/serializers)
+
+Each of these files should export a serializer function which will take the data from a WP API response and format it to the however you want to model the data in your Sanity project.
+
+I have included a few examples, but feel free to modify/add/delete them as you wish.
 
 ### Generate Sanity Import Data
 
