@@ -62,7 +62,7 @@ In each file you will decide how to request data and what to do with the respons
 
 Take a look at the `api/post/js` for an example of stitching together different records to create a single document in Sanity.
 
-#### Serializers (`/serializers)
+#### Serializers (`/serializers`)
 
 Each of these files should export a serializer function which will take the data from a WP API response and format it to the however you want to model the data in your Sanity project.
 
